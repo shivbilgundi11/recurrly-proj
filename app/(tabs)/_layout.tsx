@@ -1,20 +1,21 @@
 import { tabs } from "@/constants/data";
 import { colors, components } from "@/constants/theme";
-import { clsx } from "clsx";
 import { Tabs } from "expo-router";
-import { Image, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const tabBar = components.tabBar;
 
 const TabLayout = () => {
   const insets = useSafeAreaInsets();
+  const dockBottom =
+    tabBar.bottomOffset + Math.max(insets.bottom - tabBar.safeAreaOverlap, 0);
 
   const TabIcon = ({ focused, icon }: TabIconProps) => {
     return (
-      <View className="tabs-icon">
-        <View className={clsx("tabs-pill", focused && "tabs-active")}>
-          <Image source={icon} resizeMode="contain" className="tabs-glyph" />
+      <View style={styles.iconSlot}>
+        <View style={[styles.iconFrame, focused && styles.activeIconFrame]}>
+          <Image source={icon} resizeMode="contain" style={styles.iconGlyph} />
         </View>
       </View>
     );
@@ -27,21 +28,27 @@ const TabLayout = () => {
         tabBarShowLabel: false,
         tabBarStyle: {
           position: "absolute",
-          bottom: Math.max(insets.bottom, tabBar.horizontalInset),
+          bottom: dockBottom,
           height: tabBar.height,
           marginHorizontal: tabBar.horizontalInset,
+          paddingHorizontal: tabBar.horizontalPadding,
           borderRadius: tabBar.radius,
           backgroundColor: colors.primary,
           borderTopWidth: 0,
           elevation: 0,
         },
         tabBarItemStyle: {
-          paddingVertical: tabBar.height / 2 - tabBar.iconFrame / 1.6,
+          flex: 1,
+          height: tabBar.height,
+          alignItems: "center",
+          justifyContent: "center",
+          paddingVertical: 0,
         },
         tabBarIconStyle: {
-          width: tabBar.iconFrame,
-          height: tabBar.iconFrame,
+          width: "100%",
+          height: "100%",
           alignItems: "center",
+          justifyContent: "center",
         },
       }}
     >
@@ -65,3 +72,26 @@ const TabLayout = () => {
 };
 
 export default TabLayout;
+
+const styles = StyleSheet.create({
+  iconSlot: {
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  iconFrame: {
+    width: tabBar.iconFrame,
+    height: tabBar.iconFrame,
+    borderRadius: tabBar.iconFrame / 2,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  activeIconFrame: {
+    backgroundColor: colors.accent,
+  },
+  iconGlyph: {
+    width: tabBar.glyphSize,
+    height: tabBar.glyphSize,
+  },
+});
