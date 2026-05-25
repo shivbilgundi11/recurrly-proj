@@ -81,6 +81,14 @@
     @apply size-16 rounded-full;
   }
 
+  .home-avatar-initials {
+    @apply size-16 items-center justify-center rounded-full bg-primary;
+  }
+
+  .home-avatar-initials-text {
+    @apply text-xl font-sans-extrabold text-background;
+  }
+
   .home-user-name {
     @apply ml-4 text-2xl font-sans-bold text-primary;
   }

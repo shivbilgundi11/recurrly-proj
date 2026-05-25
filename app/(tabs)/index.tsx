@@ -4,13 +4,12 @@ import UpComingSubscription from "@/components/UpComingSubscription";
 import {
   HOME_BALANCE,
   HOME_SUBSCRIPTIONS,
-  HOME_USER,
   UPCOMING_SUBSCRIPTIONS,
 } from "@/constants/data";
 import { icons } from "@/constants/icons";
-import { images } from "@/constants/images";
 import "@/global.css";
 import { formatCurrency } from "@/lib/utils";
+import { useUser } from "@clerk/expo";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { FlatList, Image, Text, View } from "react-native";
@@ -19,10 +18,39 @@ import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
+function getUserInitials(user?: ReturnType<typeof useUser>["user"]) {
+  const firstInitial = user?.firstName?.trim().charAt(0);
+  const lastInitial = user?.lastName?.trim().charAt(0);
+
+  if (firstInitial || lastInitial) {
+    return `${firstInitial ?? ""}${lastInitial ?? ""}`.toUpperCase();
+  }
+
+  const nameParts = user?.fullName?.trim().split(/\s+/) ?? [];
+  const nameInitials = nameParts
+    .slice(0, 2)
+    .map((part) => part.charAt(0))
+    .join("");
+
+  return (
+    nameInitials ||
+    user?.primaryEmailAddress?.emailAddress?.charAt(0) ||
+    "R"
+  ).toUpperCase();
+}
+
 export default function App() {
+  const { user } = useUser();
   const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<
     string | null
   >(null);
+  const displayName =
+    user?.firstName ||
+    user?.primaryEmailAddress?.emailAddress?.split("@")[0] ||
+    "there";
+
+  const userInitials = getUserInitials(user);
+  const profileImageUrl = user?.hasImage ? user.imageUrl : undefined;
 
   return (
     <SafeAreaView className="flex-1 bg-background p-5">
@@ -32,8 +60,19 @@ export default function App() {
             <>
               <View className="home-header">
                 <View className="home-user">
-                  <Image source={images.avatar} className="home-avatar" />
-                  <Text className="home-user-name">{HOME_USER.name}</Text>
+                  {profileImageUrl ? (
+                    <Image
+                      source={{ uri: profileImageUrl }}
+                      className="home-avatar"
+                    />
+                  ) : (
+                    <View className="home-avatar-initials">
+                      <Text className="home-avatar-initials-text">
+                        {userInitials}
+                      </Text>
+                    </View>
+                  )}
+                  <Text className="home-user-name">{displayName}</Text>
                 </View>
 
                 <Image source={icons.add} className="home-add-icon" />
