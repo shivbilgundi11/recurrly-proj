@@ -441,6 +441,26 @@
     @apply font-sans-bold text-background;
   }
 
+  .subscriptions-list {
+    @apply px-5 pb-28 pt-8;
+  }
+
+  .subscriptions-header {
+    @apply mb-5 gap-4;
+  }
+
+  .subscriptions-title {
+    @apply text-3xl font-sans-extrabold text-primary;
+  }
+
+  .subscriptions-search {
+    @apply rounded-2xl border border-border bg-card px-4 py-4 text-base font-sans-medium text-primary focus:border-primary focus:outline focus:ring-1 focus:ring-primary;
+  }
+
+  .subscriptions-empty {
+    @apply py-10 text-center text-base font-sans-medium text-muted-foreground;
+  }
+
   .modal-overlay {
     @apply flex-1 bg-black/50;
   }
