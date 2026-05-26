@@ -1,5 +1,5 @@
 import SubscriptionCard from "@/components/SubscriptionCard";
-import { HOME_SUBSCRIPTIONS } from "@/constants/data";
+import { useSubscriptions } from "@/lib/subscriptions";
 import { useMemo, useState } from "react";
 import { FlatList, Keyboard, Text, TextInput, View } from "react-native";
 import { styled } from "react-native-css";
@@ -12,13 +12,14 @@ const Subscriptions = () => {
   const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<
     string | null
   >(null);
+  const { subscriptions } = useSubscriptions();
 
   const filteredSubscriptions = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
 
-    if (!normalizedQuery) return HOME_SUBSCRIPTIONS;
+    if (!normalizedQuery) return subscriptions;
 
-    return HOME_SUBSCRIPTIONS.filter((subscription) => {
+    return subscriptions.filter((subscription) => {
       const searchableText = [
         subscription.name,
         subscription.plan,
@@ -33,7 +34,7 @@ const Subscriptions = () => {
 
       return searchableText.includes(normalizedQuery);
     });
-  }, [query]);
+  }, [query, subscriptions]);
 
   const dismissKeyboardOnScroll = () => {
     if (query.trim()) {

@@ -2,13 +2,10 @@ import CreateSubscriptionModal from "@/components/CreateSubscriptionModal";
 import ListHeading from "@/components/ListHeading";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import UpComingSubscription from "@/components/UpComingSubscription";
-import {
-  HOME_BALANCE,
-  HOME_SUBSCRIPTIONS,
-  UPCOMING_SUBSCRIPTIONS,
-} from "@/constants/data";
+import { HOME_BALANCE, UPCOMING_SUBSCRIPTIONS } from "@/constants/data";
 import { icons } from "@/constants/icons";
 import "@/global.css";
+import { useSubscriptions } from "@/lib/subscriptions";
 import { formatCurrency } from "@/lib/utils";
 import { useUser } from "@clerk/expo";
 import dayjs from "dayjs";
@@ -47,9 +44,8 @@ export default function App() {
   const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<
     string | null
   >(null);
-  const [subscriptions, setSubscriptions] =
-    useState<Subscription[]>(HOME_SUBSCRIPTIONS);
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
+  const { subscriptions, addSubscription } = useSubscriptions();
   const displayName =
     user?.firstName ||
     user?.primaryEmailAddress?.emailAddress?.split("@")[0] ||
@@ -64,7 +60,7 @@ export default function App() {
         visible={isCreateModalVisible}
         onClose={() => setIsCreateModalVisible(false)}
         onCreate={(subscription) => {
-          setSubscriptions((current) => [subscription, ...current]);
+          addSubscription(subscription);
           setExpandedSubscriptionId(subscription.id);
         }}
       />
