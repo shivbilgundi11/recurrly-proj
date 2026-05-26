@@ -1,3 +1,4 @@
+import CreateSubscriptionModal from "@/components/CreateSubscriptionModal";
 import ListHeading from "@/components/ListHeading";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import UpComingSubscription from "@/components/UpComingSubscription";
@@ -13,7 +14,7 @@ import { useUser } from "@clerk/expo";
 import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { FlatList, Image, Text, View } from "react-native";
+import { FlatList, Image, Pressable, Text, View } from "react-native";
 import { styled } from "react-native-css";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 
@@ -46,6 +47,9 @@ export default function App() {
   const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<
     string | null
   >(null);
+  const [subscriptions, setSubscriptions] =
+    useState<Subscription[]>(HOME_SUBSCRIPTIONS);
+  const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
   const displayName =
     user?.firstName ||
     user?.primaryEmailAddress?.emailAddress?.split("@")[0] ||
@@ -56,6 +60,15 @@ export default function App() {
 
   return (
     <SafeAreaView className="flex-1 bg-background p-5">
+      <CreateSubscriptionModal
+        visible={isCreateModalVisible}
+        onClose={() => setIsCreateModalVisible(false)}
+        onCreate={(subscription) => {
+          setSubscriptions((current) => [subscription, ...current]);
+          setExpandedSubscriptionId(subscription.id);
+        }}
+      />
+
       <FlatList
         ListHeaderComponent={() => {
           return (
@@ -77,7 +90,13 @@ export default function App() {
                   <Text className="home-user-name">{displayName}</Text>
                 </View>
 
-                <Image source={icons.add} className="home-add-icon" />
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="Create subscription"
+                  onPress={() => setIsCreateModalVisible(true)}
+                >
+                  <Image source={icons.add} className="home-add-icon" />
+                </Pressable>
               </View>
 
               <View className="home-balance-card">
@@ -117,7 +136,7 @@ export default function App() {
           );
         }}
         showsVerticalScrollIndicator={false}
-        data={HOME_SUBSCRIPTIONS}
+        data={subscriptions}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <SubscriptionCard
@@ -130,7 +149,7 @@ export default function App() {
             }
           />
         )}
-        extraData={expandedSubscriptionId}
+        extraData={{ expandedSubscriptionId, subscriptions }}
         ItemSeparatorComponent={() => <View className="h-3" />}
         contentContainerClassName="pb-14"
       />
