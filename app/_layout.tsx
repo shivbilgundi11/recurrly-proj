@@ -1,10 +1,10 @@
 import "@/global.css";
-import { ClerkProvider } from "@clerk/expo";
+import { SubscriptionsProvider } from "@/lib/subscriptions";
+import { ClerkProvider, useAuth } from "@clerk/expo";
 import { tokenCache } from "@clerk/expo/token-cache";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { Redirect, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { SubscriptionsProvider } from "@/lib/subscriptions";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -14,7 +14,7 @@ if (!publishableKey) {
   throw new Error("Missing EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in .env");
 }
 
-export default function RootLayout() {
+function RootLayoutContent() {
   const [fontsLoaded] = useFonts({
     "sans-regular": require("../assets/fonts/PlusJakartaSans-Regular.ttf"),
     "sans-bold": require("../assets/fonts/PlusJakartaSans-Bold.ttf"),
@@ -33,9 +33,19 @@ export default function RootLayout() {
   if (!fontsLoaded) return null;
 
   return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="onboarding" />
+      <Stack.Screen name="(auth)" />
+      <Stack.Screen name="(tabs)" />
+    </Stack>
+  );
+}
+
+export default function RootLayout() {
+  return (
     <ClerkProvider publishableKey={publishableKey!} tokenCache={tokenCache}>
       <SubscriptionsProvider>
-        <Stack screenOptions={{ headerShown: false }} />
+        <RootLayoutContent />
       </SubscriptionsProvider>
     </ClerkProvider>
   );

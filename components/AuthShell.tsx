@@ -1,4 +1,5 @@
 import { clsx } from "clsx";
+import { router } from "expo-router";
 import type React from "react";
 import {
   ActivityIndicator,
@@ -61,19 +62,21 @@ export function AuthShell({ title, subtitle, children }: AuthShellProps) {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <View className="auth-brand-block">
-            <View className="auth-logo-wrap">
-              <View className="auth-logo-mark">
-                <Text className="auth-logo-mark-text">R</Text>
+          <Pressable onPress={() => router.push("/onboarding")}>
+            <View className="auth-brand-block">
+              <View className="auth-logo-wrap">
+                <View className="auth-logo-mark">
+                  <Text className="auth-logo-mark-text">R</Text>
+                </View>
+                <View>
+                  <Text className="auth-wordmark">Recurrly</Text>
+                  <Text className="auth-wordmark-sub">Smart billing</Text>
+                </View>
               </View>
-              <View>
-                <Text className="auth-wordmark">Recurrly</Text>
-                <Text className="auth-wordmark-sub">Smart billing</Text>
-              </View>
+              <Text className="auth-title">{title}</Text>
+              <Text className="auth-subtitle">{subtitle}</Text>
             </View>
-            <Text className="auth-title">{title}</Text>
-            <Text className="auth-subtitle">{subtitle}</Text>
-          </View>
+          </Pressable>
 
           <View className="auth-card">{children}</View>
         </ScrollView>
