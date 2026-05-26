@@ -35,6 +35,8 @@ const SignIn = () => {
       nextErrors.email = "Enter a valid email address.";
 
     if (!password) nextErrors.password = "Enter your password.";
+    else if (password.length < 8)
+      nextErrors.password = "Password must be at least 8 characters.";
 
     setFormErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
