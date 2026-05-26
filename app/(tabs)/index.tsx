@@ -11,6 +11,7 @@ import "@/global.css";
 import { formatCurrency } from "@/lib/utils";
 import { useUser } from "@clerk/expo";
 import dayjs from "dayjs";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { FlatList, Image, Text, View } from "react-native";
 import { styled } from "react-native-css";
@@ -41,6 +42,7 @@ function getUserInitials(user?: ReturnType<typeof useUser>["user"]) {
 
 export default function App() {
   const { user } = useUser();
+  const router = useRouter();
   const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<
     string | null
   >(null);
@@ -107,7 +109,10 @@ export default function App() {
                 />
               </View>
 
-              <ListHeading title="All Subscriptions" />
+              <ListHeading
+                title="All Subscriptions"
+                onActionPress={() => router.push("/subscriptions")}
+              />
             </>
           );
         }}
