@@ -51,8 +51,7 @@ const SignUp = () => {
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [message, setMessage] = useState("");
   const [verificationSent, setVerificationSent] = useState(false);
-  const [showMissingRequirements, setShowMissingRequirements] =
-    useState(false);
+  const [showMissingRequirements, setShowMissingRequirements] = useState(false);
   const isFetching = fetchStatus === "fetching";
   const emailForDisplay = cleanEmail(emailAddress);
   const missingFields = signUp.missingFields ?? [];
@@ -237,9 +236,7 @@ const SignUp = () => {
 
       const remainingFields = signUp.missingFields ?? [];
       if (remainingFields.length > 0) {
-        setMessage(
-          `Still needed: ${formatMissingFields(remainingFields)}.`,
-        );
+        setMessage(`Still needed: ${formatMissingFields(remainingFields)}.`);
         return;
       }
     } catch (error) {
@@ -357,10 +354,7 @@ const SignUp = () => {
     );
   }
 
-  if (
-    verificationSent ||
-    signUp.unverifiedFields.includes("email_address")
-  ) {
+  if (verificationSent || signUp.unverifiedFields.includes("email_address")) {
     return (
       <AuthShell
         title="Verify your email"
@@ -416,18 +410,20 @@ const SignUp = () => {
           textContentType="emailAddress"
           value={emailAddress}
         />
-        <AuthField
-          autoComplete="new-password"
-          error={formErrors.password || errors.fields.password?.message}
-          label="Password"
-          onChangeText={setPassword}
-          placeholder="Create a password"
-          returnKeyType="next"
-          secureTextEntry
-          textContentType="newPassword"
-          value={password}
-        />
-        <Text className="auth-helper">{passwordHint}</Text>
+        <View className="gap-y-2">
+          <AuthField
+            autoComplete="new-password"
+            error={formErrors.password || errors.fields.password?.message}
+            label="Password"
+            onChangeText={setPassword}
+            placeholder="Create a password"
+            returnKeyType="next"
+            secureTextEntry
+            textContentType="newPassword"
+            value={password}
+          />
+          <Text className="auth-helper">{passwordHint}</Text>
+        </View>
         <AuthField
           autoComplete="new-password"
           error={formErrors.confirmPassword}
