@@ -298,7 +298,7 @@
   }
 
   .auth-field {
-    @apply gap-2;
+    @apply gap-2 mb-3;
   }
 
   .auth-label {
