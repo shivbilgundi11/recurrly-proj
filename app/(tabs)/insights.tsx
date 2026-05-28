@@ -38,7 +38,10 @@ const BarChart = () => {
           const isHighlighted = index === 4; // Friday is highlighted
 
           return (
-            <View key={data.day} className="flex-1 items-center">
+            <View
+              key={data.day}
+              className="flex-1 items-center justify-flex-end h-full"
+            >
               <View
                 className="w-full rounded-md mb-3"
                 style={{
