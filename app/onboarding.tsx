@@ -11,7 +11,7 @@ const Onboarding = () => {
   const router = useRouter();
 
   const handleGetStarted = () => {
-    router.push("/(auth)/sign-up");
+    router.push("/(auth)/sign-in");
   };
 
   return (
