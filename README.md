@@ -1,8 +1,42 @@
-# Welcome to your Expo app 👋
+# Recurrly 💳
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A modern React Native app for managing recurring subscriptions and tracking your spending. Built with Expo, TypeScript, and NativeWind.
 
-## Get started
+## Overview
+
+Recurrly is a subscription management application that helps users track their recurring payments, manage billing cycles, and gain insights into their spending patterns. The app provides an intuitive interface to add, view, and manage all your subscriptions in one place.
+
+## Features
+
+- 🔐 **Authentication**: Secure user authentication with Clerk
+- 📊 **Dashboard**: Overview of all subscriptions with total balance and upcoming payments
+- ➕ **Add Subscriptions**: Easy-to-use modal to create new subscription entries
+- 💰 **Expense Tracking**: Monitor subscription costs and billing cycles
+- 📈 **Insights**: View spending trends and subscription analytics
+- ⚙️ **Settings**: Manage app preferences and user profile
+- 🎨 **Modern UI**: Beautiful, responsive design with NativeWind styling
+- 📱 **Cross-platform**: Runs on iOS, Android, and Web
+
+## Tech Stack
+
+- **Framework**: [Expo](https://expo.dev) + [React Native](https://reactnative.dev)
+- **Language**: [TypeScript](https://www.typescriptlang.org)
+- **Navigation**: [Expo Router](https://expo.dev/router) with file-based routing
+- **Styling**: [NativeWind](https://nativewind.dev) + [TailwindCSS](https://tailwindcss.com)
+- **Authentication**: [Clerk](https://clerk.com)
+- **State Management**: React Context API
+- **UI Components**: React Native built-ins + [Vector Icons](https://docs.expo.dev/guides/icons)
+- **Date Handling**: [Day.js](https://day.js.org)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+- Expo CLI (optional: `npm install -g expo-cli`)
+
+### Installation
 
 1. Install dependencies
 
@@ -10,41 +44,135 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npm install
    ```
 
-2. Start the app
+2. Start the development server
 
    ```bash
+   npm start
+   ```
+
+3. Run on your preferred platform:
+
+   ```bash
+   # iOS Simulator
+   npm run ios
+
+   # Android Emulator
+   npm run android
+
+   # Web
+   npm run web
+
+   # Or use Expo Go by scanning the QR code
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+## Project Structure
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+```
+recurrly/
+├── app/                      # Expo Router app directory (file-based routing)
+│   ├── (auth)/              # Authentication screens (sign-in, sign-up)
+│   ├── (tabs)/              # Tab-based main app screens
+│   │   ├── index.tsx        # Home/Dashboard
+│   │   ├── subscriptions.tsx # Subscriptions list
+│   │   ├── insights.tsx     # Analytics and insights
+│   │   └── settings.tsx     # User settings
+│   └── onboarding.tsx       # Onboarding screen
+├── components/              # Reusable React components
+│   ├── SubscriptionCard.tsx
+│   ├── CreateSubscriptionModal.tsx
+│   ├── UpComingSubscription.tsx
+│   └── ...
+├── constants/               # App constants and configurations
+│   ├── data.ts             # Mock data
+│   ├── icons.ts            # Icon definitions
+│   ├── images.ts           # Image paths
+│   └── theme.ts            # Design tokens (colors, spacing)
+├── lib/                     # Utility functions and hooks
+│   ├── subscriptions.tsx   # Subscription context and hooks
+│   ├── auth.ts             # Authentication utilities
+│   └── utils.ts            # Helper functions
+├── assets/                  # Images, icons, and fonts
+│   ├── images/
+│   ├── icons/
+│   └── fonts/
+└── global.css              # Global styles (Tailwind)
+```
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Available Scripts
 
 ```bash
+# Start development server
+npm start
+
+# Run on Android emulator
+npm run android
+
+# Run on iOS simulator
+npm run ios
+
+# Run on Web
+npm run web
+
+# Lint the project
+npm lint
+
+# Reset project (clear node_modules and reinstall)
 npm run reset-project
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Key Features Implementation
 
-## Learn more
+### Authentication
 
-To learn more about developing your project with Expo, look at the following resources:
+The app uses Clerk for secure user authentication with support for email/password and social login options.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Subscription Management
 
-## Join the community
+Users can create and manage subscriptions with details including:
 
-Join our community of developers creating universal apps.
+- Subscription name and category
+- Billing amount and frequency
+- Renewal dates
+- Payment methods
+- Subscription status
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Context-Based State Management
+
+Subscriptions are managed using React Context API for global state management across the app.
+
+### Styling
+
+The project uses NativeWind (Tailwind for React Native) for consistent, utility-first styling. Global styles are defined in `global.css`.
+
+## Development
+
+### Code Quality
+
+- ESLint configured for code consistency
+- TypeScript for type safety
+- Follows React best practices and patterns
+
+### Environment Setup
+
+Make sure you have a `.env` file with necessary Clerk credentials:
+
+```
+EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=your_key_here
+```
+
+## Learn More
+
+- [Expo Documentation](https://docs.expo.dev)
+- [React Native Documentation](https://reactnative.dev)
+- [Expo Router Guide](https://expo.dev/router)
+- [NativeWind Documentation](https://nativewind.dev)
+- [Clerk Documentation](https://clerk.com/docs)
+
+## Contributing
+
+Feel free to submit issues and enhancement requests!
+
+## License
+
+This project is open source and available under the MIT License.
